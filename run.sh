@@ -45,7 +45,6 @@ cp /root/org.ops4j.pax.logging.cfg /opt/instana/agent/etc
 cat /root/com.instana.agent.main.sender.Backend.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.main.sender.Backend.cfg
 
-echo "origin = static_docker" >> /opt/instana/agent/etc/instana/com.instana.agent.bootstrap.AgentBootstrap.cfg
 
 if [[ "${INSTANA_AGENT_HTTP_LISTEN}" != "" ]]; then
   echo -e "\nhttp.listen = ${INSTANA_AGENT_HTTP_LISTEN}" >> /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
