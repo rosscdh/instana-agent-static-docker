@@ -1,6 +1,6 @@
 .PHONY: all build login push run
 
-NAME     := 'metrics/instana-agent-static-infra'
+NAME     := 'metrics/instana-agent-static-infra-${INSTANA_AGENT_ENVIRONMENT}'
 REGISTRY := 'artifactory-docker.edge.tmecosys.com'
 TAG      := $$(git log -1 --pretty=%h)
 VERSION  := ${NAME}:${TAG}
