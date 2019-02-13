@@ -8,8 +8,10 @@ Building
 
 You can get your INSTANA_AGENT_KEY from `https://$YOUR_INSTANA_NAME.instana.io/ump/$YOUR_INSTANA_CUSTOMER/$YOUR_INSTANA_ENVIRONMENT/agentkeys/`
 
+ensure that the INSTANA_AGENT_KEY is the right agent for the INSTANA_AGENT_ENVIRONMENT you are building for
+
 ```sh
-INSTANA_AGENT_KEY=123456 make build
+INSTANA_AGENT_ENVIRONMENT=nonprod INSTANA_AGENT_KEY=123456 make build
 ```
 
 Environment Vareiables

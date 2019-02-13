@@ -18,13 +18,14 @@ all: build login push
 
 build:
 	docker build -t ${LATEST} -t ${REGISTRY}/${LATEST} -t ${REGISTRY}/${VERSION} \
+		--build-arg INSTANA_AGENT_ENVIRONMENT=${INSTANA_AGENT_ENVIRONMENT} \
 		--build-arg BUILD_COMMIT_SHA1=${BUILD_COMMIT_SHA1} \
 		--build-arg BUILD_COMMIT_DATE=${BUILD_COMMIT_DATE} \
 		--build-arg BUILD_BRANCH=${BUILD_BRANCH} \
 		--build-arg BUILD_DATE=${BUILD_DATE} \
 		--build-arg BUILD_REPO_ORIGIN=${BUILD_REPO_ORIGIN} \
 		--build-arg FTP_PROXY=${INSTANA_AGENT_KEY} \
-		.
+		. --no-cache
 
 login:
 	docker login ${REGISTRY}
