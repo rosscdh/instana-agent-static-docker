@@ -1,0 +1,10 @@
+#    - object_name: 'java.lang:type=Compilation'
+# Internal Instana Agent configuration.
+scheduler.threads = {{ getenv "INSTANA_AGENT_SCHEDULER_THREADS" "4" }} 
+http.threads = {{ getenv "INSTANA_AGENT_HTTP_THREADS" "4" }} 
+use-cloud-provider-id = {{ getenv "INSTANA_AGENT_USE_CLOUD-PROVIDER_ID" "true" }} 
+
+# APM or INFRASTRUCTURE or OFF
+mode = {{ getenv "INSTANA_AGENT_MODE" "INFRASTRUCTURE" }}
+
+
