@@ -6,7 +6,9 @@ This build of the Instana agent includes all sensors. It requires proxy settings
 Building
 ========
 
-docker build ./ --build-arg FTP_PROXY=${INSTANA_AGENT_KEY} --no-cache
+```sh
+INSTANA_AGENT_KEY=123456 make build
+```
 
 *Note*
 
