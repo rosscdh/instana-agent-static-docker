@@ -3,7 +3,7 @@ default: build
 
 PREFIX   := 'metrics/instana-agent-static'
 TAG      := $(shell git describe --tags --always)
-REGISTRY := 'artifactory-docker.edge.tmecosys.com/'
+REGISTRY := 'artifactory-docker.edge.tmecosys.com'
 
 BUILD_REPO_ORIGIN := $(shell git config --get remote.origin.url)
 BUILD_COMMIT_SHA1 := $(shell git rev-parse --short HEAD)
@@ -24,7 +24,7 @@ build:
 		--build-arg BUILD_DATE=${BUILD_DATE} \
 		--build-arg BUILD_REPO_ORIGIN=${BUILD_REPO_ORIGIN} \
 		--build-arg FTP_PROXY=${INSTANA_AGENT_KEY} \
-		./docker
+		./docker --no-cache
 
 login:
 	docker login ${REGISTRY}
