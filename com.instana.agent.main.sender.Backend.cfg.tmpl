@@ -34,3 +34,5 @@ proxy.password={{ getenv "INSTANA_AGENT_PROXY_PASSWORD" }}
 
 # Access Key for your SaaS installation. Is pre-filled during agent download.
 key={{ getenv "INSTANA_AGENT_KEY" }}
+
+origin={{ getenv "INSTANA_AGENT_ORIGIN" "static_docker" }}

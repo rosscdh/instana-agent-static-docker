@@ -6,7 +6,43 @@ This build of the Instana agent includes all sensors. It requires proxy settings
 Building
 ========
 
-docker build ./ --build-arg FTP_PROXY=${INSTANA_AGENT_KEY} --no-cache
+You can get your INSTANA_AGENT_KEY from `https://$YOUR_INSTANA_NAME.instana.io/ump/$YOUR_INSTANA_CUSTOMER/$YOUR_INSTANA_ENVIRONMENT/agentkeys/`
+
+ensure that the INSTANA_AGENT_KEY is the right agent for the INSTANA_AGENT_ENVIRONMENT you are building for
+
+### Build for your agent environmnet
+
+```sh
+REGISTRY=docker.io INSTANA_AGENT_ENVIRONMENT=nonprod INSTANA_AGENT_KEY=123456 make build
+```
+
+The above command will push to a repo specified in the makefile `metrics/instana-agent-static-infra-$INSTANA_AGENT_ENVIRONMENT`
+
+### Pushing
+
+```sh
+INSTANA_AGENT_ENVIRONMENT=nonprod make push
+```
+
+Environment Vareiables
+======================
+
+```
+INSTANA_AGENT_SCHEDULER_THREADS *default 4*
+INSTANA_AGENT_HTTP_THREADS *default 4*
+INSTANA_AGENT_USE_CLOUD-PROVIDER_ID *default true*
+INSTANA_AGENT_MODE *default INFRASTRUCTURE* options: APM | INFRASTRUCTURE | OFF
+INSTANA_AGENT_ENDPOINT
+INSTANA_AGENT_ENDPOINT_PORT
+INSTANA_AGENT_PROXY_HOST
+INSTANA_AGENT_PROXY_PORT
+INSTANA_AGENT_PROXY_PROTOCOL
+INSTANA_AGENT_PROXY_USE_DNS
+INSTANA_AGENT_PROXY_USER
+INSTANA_AGENT_PROXY_PASSWORD
+INSTANA_AGENT_KEY *provided in build*
+INSTANA_AGENT_ORIGIN
+```
 
 *Note*
 

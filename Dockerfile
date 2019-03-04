@@ -1,5 +1,21 @@
 FROM ubuntu:18.04
 
+#
+# Handle the env info
+#
+ARG BUILD_COMMIT_SHA1
+ARG BUILD_COMMIT_DATE
+ARG BUILD_BRANCH
+ARG BUILD_DATE
+ARG BUILD_REPO_ORIGIN
+ 
+ENV BUILD_COMMIT_SHA1=$BUILD_COMMIT_SHA1 \
+    BUILD_COMMIT_DATE=$BUILD_COMMIT_DATE \
+    BUILD_BRANCH=$BUILD_BRANCH \
+    BUILD_DATE=$BUILD_DATE \
+    BUILD_REPO_ORIGIN=$BUILD_REPO_ORIGIN \
+    INSTANA_AGENT_ENVIRONMENT=$INSTANA_AGENT_ENVIRONMENT
+
 ENV LANG=C.UTF-8 \
     INSTANA_AGENT_KEY="" \
     INSTANA_AGENT_ENDPOINT="" \
@@ -32,7 +48,7 @@ ADD org.ops4j.pax.logging.cfg /root/
 ADD configuration.yaml /root/
 ADD com.instana.agent.main.sender.Backend.cfg.tmpl /root/
 ADD run.sh /opt/instana/agent/bin
-ADD com.instana.agent.main.config.Agent.cfg /root/
+ADD com.instana.agent.main.config.Agent.cfg.tmpl /root/
 ADD configuration-header.yaml /root/
 
 WORKDIR /opt/instana/agent
