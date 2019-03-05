@@ -11,10 +11,7 @@ BUILD_COMMIT_DATE := $(shell git log -1 --date=short --pretty=format:%ct)
 BUILD_BRANCH := $(shell git symbolic-ref --short HEAD)
 BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-
-
 all: build login push
-
 
 build:
 	docker build -t ${PREFIX}:latest -t ${REGISTRY}/${PREFIX}:latest -t ${REGISTRY}/${PREFIX}:${TAG} \
@@ -33,4 +30,4 @@ login:
 push:
 	docker push ${REGISTRY}/${PREFIX}:latest
 	docker push ${REGISTRY}/${PREFIX}:${TAG}
-
+	docker push ${REGISTRY}/${PREFIX}:$(shell docker run --rm --entrypoint cat ${PREFIX}:latest /instana-static-agent.version)
