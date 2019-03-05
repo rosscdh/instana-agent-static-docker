@@ -1,0 +1,18 @@
+variables:
+    ARTIFACTORY_SERVER: artifactory-docker.edge.tmecosys.com
+
+build:
+  stage: build
+  allow_failure: false
+  only:
+    refs:
+    - tags
+  image: docker
+  tags:
+  - multistage
+  - europe
+  before_script:
+    - apk add --update make git
+  script:
+    - docker login $ARTIFACTORY_SERVER -u $ARTIFACTORY_USER -p $ARTIFACTORY_API_KEY
+    - make all
