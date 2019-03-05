@@ -41,7 +41,8 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     rm -rf /etc/apt/sources.list.d/instana-agent.list && \
     rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
+    apt-get clean && \
+    dpkg -s instana-agent-static | grep '^Version:' | awk '{print $2}' > /instana-static-agent.version
 
 ADD org.ops4j.pax.logging.cfg /root/
 ADD configuration.yaml /root/
