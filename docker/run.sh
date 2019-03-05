@@ -49,6 +49,9 @@ cat /root/com.instana.agent.main.sender.Backend.cfg.tmpl | gomplate > \
 cp /root/com.instana.agent.main.config.Agent.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
 
+cp /root/com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl | gomplate > \
+  /opt/instana/agent/etc/instana/com.instana.agent.bootstrap.AgentBootstrap.cfg
+
 cp /root/configuration-header.yaml /opt/instana/agent/etc/instana/configuration-header.yaml
 
 
