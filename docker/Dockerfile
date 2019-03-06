@@ -15,6 +15,12 @@ LABEL BUILD_COMMIT_SHA1=$BUILD_COMMIT_SHA1 \
       BUILD_DATE=$BUILD_DATE \
       BUILD_REPO_ORIGIN=$BUILD_REPO_ORIGIN
 
+ENV BUILD_COMMIT_SHA1=$BUILD_COMMIT_SHA1 \
+    BUILD_COMMIT_DATE=$BUILD_COMMIT_DATE \
+    BUILD_BRANCH=$BUILD_BRANCH \
+    BUILD_DATE=$BUILD_DATE \
+    BUILD_REPO_ORIGIN=$BUILD_REPO_ORIGIN
+
 ENV LANG=C.UTF-8 \
     INSTANA_AGENT_KEY="" \
     INSTANA_AGENT_ENDPOINT="" \
@@ -41,14 +47,16 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     rm -rf /etc/apt/sources.list.d/instana-agent.list && \
     rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
+    apt-get clean && \
+    dpkg -s instana-agent-static | grep '^Version:' | awk '{print $2}' > /instana-static-agent.version
 
 ADD org.ops4j.pax.logging.cfg /root/
 ADD configuration.yaml /root/
 ADD com.instana.agent.main.sender.Backend.cfg.tmpl /root/
-ADD run.sh /opt/instana/agent/bin
+ADD com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl /root/
 ADD com.instana.agent.main.config.Agent.cfg.tmpl /root/
 ADD configuration-header.yaml /root/
+ADD run.sh /opt/instana/agent/bin
 
 WORKDIR /opt/instana/agent
 
