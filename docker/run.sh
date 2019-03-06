@@ -38,22 +38,18 @@ rm -rf /tmp/* /opt/instana/agent/etc/org.ops4j.pax.logging.cfg \
   /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
 
 cp /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg.template /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg
-
-
 cp /root/configuration.yaml /opt/instana/agent/etc/instana
 cp /root/org.ops4j.pax.logging.cfg /opt/instana/agent/etc
+cp /root/configuration-header.yaml /opt/instana/agent/etc/instana/configuration-header.yaml
 
 cat /root/com.instana.agent.main.sender.Backend.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.main.sender.Backend.cfg
 
-cp /root/com.instana.agent.main.config.Agent.cfg.tmpl | gomplate > \
+cat /root/com.instana.agent.main.config.Agent.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
 
-cp /root/com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl | gomplate > \
+cat /root/com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.bootstrap.AgentBootstrap.cfg
-
-cp /root/configuration-header.yaml /opt/instana/agent/etc/instana/configuration-header.yaml
-
 
 if [[ "${INSTANA_AGENT_HTTP_LISTEN}" != "" ]]; then
   echo -e "\nhttp.listen = ${INSTANA_AGENT_HTTP_LISTEN}" >> /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
