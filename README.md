@@ -1,6 +1,8 @@
 Instana Agent Static Docker
 ===========================
 
+[![pipeline status](https://gitlab.tmecosys.net/nwot/platform-engineering/instana-agent-static-docker/badges/master/pipeline.svg)](https://gitlab.tmecosys.net/nwot/platform-engineering/instana-agent-static-docker/commits/master)
+
 This build of the Instana agent includes all sensors. It requires proxy settings only for egress access to the ${INSTANA_AGENT_ENDPOINT}, which may either be for your self hosted Instana installation or for the Instana SaaS.
 
 Building
