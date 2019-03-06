@@ -1,9 +1,9 @@
 .PHONY: all build login push run
 default: build
 
-PREFIX   := 'metrics/instana-agent-static'
+PREFIX   := metrics/instana-agent-static
 TAG      := $(shell git describe --tags --always)
-REGISTRY := 'artifactory-docker.edge.tmecosys.com'
+REGISTRY := artifactory-docker.edge.tmecosys.com
 
 BUILD_REPO_ORIGIN := $(shell git config --get remote.origin.url)
 BUILD_COMMIT_SHA1 := $(shell git rev-parse --short HEAD)

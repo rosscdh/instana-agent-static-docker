@@ -6,7 +6,7 @@ build:
   allow_failure: false
   only:
     refs:
-    - tags
+    - master
   image: docker
   tags:
   - multistage
