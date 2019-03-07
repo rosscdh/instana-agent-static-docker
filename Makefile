@@ -23,7 +23,7 @@ build:
 		--build-arg FTP_PROXY=${INSTANA_AGENT_KEY} \
 		./docker --no-cache
 
-tag: build		
+tag: build
 	docker tag ${PREFIX}:latest ${REGISTRY}/${PREFIX}:$(shell docker run --rm --entrypoint cat ${PREFIX}:latest /instana-static-agent.version)
 
 login:
