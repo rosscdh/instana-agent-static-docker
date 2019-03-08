@@ -26,7 +26,7 @@ The above command will push to a repo specified in the makefile `metrics/instana
 INSTANA_AGENT_ENVIRONMENT=nonprod make push
 ```
 
-Environment Vareiables
+Environment Variables
 ======================
 
 ```
