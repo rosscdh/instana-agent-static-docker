@@ -48,7 +48,10 @@ RUN apt-get update && \
     rm -rf /etc/apt/sources.list.d/instana-agent.list && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean && \
-    dpkg -s instana-agent-static | grep '^Version:' | awk '{print $2}' > /instana-static-agent.version
+    fgrep -R 'description="Instana Agent"' /opt/instana/agent/system/com/instana/agent-feature/ | \
+          grep -Po '\<feature name\=\"instana-agent\" description\=\"Instana\ Agent\" version\=\"(.+)\"\>' | \
+          sed -rn 's/.*version="([^"]*)".*/\1/p' > /instana-static-agent.version && \
+    find /opt/instana/agent/system -name *.jar | sed "s/.*\///" | sed "s/.jar//" > /instana-sensors.version
 
 ADD org.ops4j.pax.logging.cfg /root/
 ADD configuration.yaml /root/
