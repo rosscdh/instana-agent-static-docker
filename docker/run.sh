@@ -40,24 +40,23 @@ rm -rf /tmp/* /opt/instana/agent/etc/org.ops4j.pax.logging.cfg \
 cp /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg.template /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg
 cp /root/configuration.yaml /opt/instana/agent/etc/instana
 cp /root/org.ops4j.pax.logging.cfg /opt/instana/agent/etc
-cp /root/configuration-header.yaml /opt/instana/agent/etc/instana/configuration-header.yaml
 
-cat /root/com.instana.agent.main.sender.Backend.cfg.tmpl | gomplate > \
-  /opt/instana/agent/etc/instana/com.instana.agent.main.sender.Backend.cfg
-
-cat /root/com.instana.agent.main.config.Agent.cfg.tmpl | gomplate > \
+cat /root/templates/com.instana.agent.main.config.Agent.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
 
-cat /root/com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl | gomplate > \
+cat /root/templates/com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.bootstrap.AgentBootstrap.cfg
+
+if [[ "${INSTANA_INCLUDE_CONFIGURATION_HEADERS}" == "true" ]]; then
+  cp /root/configuration-header.yaml /opt/instana/agent/etc/instana/configuration-header.yaml
+fi
 
 if [[ "${INSTANA_AGENT_HTTP_LISTEN}" != "" ]]; then
   echo -e "\nhttp.listen = ${INSTANA_AGENT_HTTP_LISTEN}" >> /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
 fi
 
-if [ -d /host/proc ]; then
-  export INSTANA_AGENT_PROC_PATH=/host/proc
+if [[ "${INSTANA_MULTI_BACKEND}" == "true" ]]; then
+  bash /opt/instana/agent/bin/run-multi-backend.sh
+else
+  bash /opt/instana/agent/bin/run-single-backend.sh
 fi
-
-echo "Starting Instana Agent ..."
-exec /opt/instana/agent/bin/karaf daemon

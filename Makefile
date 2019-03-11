@@ -1,4 +1,5 @@
-.PHONY: all build login push run tag
+.PHONY: all build login push run tag run-single-backend run-multi-backend
+
 default: build
 
 PREFIX   := metrics/instana-agent-static
@@ -33,3 +34,31 @@ push: tag
 	docker push ${REGISTRY}/${PREFIX}:latest
 	docker push ${REGISTRY}/${PREFIX}:${TAG}
 	docker push ${REGISTRY}/${PREFIX}:$(shell docker run --rm --entrypoint cat ${PREFIX}:latest /instana-static-agent.version)
+
+run-single-backend:
+	docker run --rm -it \
+		-e INSTANA_MULTI_BACKEND=false \
+		-e INSTANA_INCLUDE_CONFIGURATION_HEADERS=true \
+		-e INSTANA_AGENT_KEY=${INSTANA_AGENT_KEY} \
+        -e INSTANA_AGENT_ENDPOINT=saas-eu-west-1.instana.io \
+    	-e INSTANA_AGENT_ENDPOINT_PORT=443 \
+		-v ${PWD}/docker/templates:/root/templates \
+		-v ${PWD}/docker/run-multi-backend.sh:/opt/instana/agent/bin/run-multi-backend.sh \
+		-v ${PWD}/docker/run-single-backend.sh:/opt/instana/agent/bin/run-single-backend.sh \
+		-v ${PWD}/docker/run.sh:/opt/instana/agent/bin/run.sh \
+		--entrypoint bash \
+		${PREFIX}:latest
+
+run-multi-backend:
+	docker run --rm -it \
+		-e INSTANA_MULTI_BACKEND=true \
+		-e INSTANA_INCLUDE_CONFIGURATION_HEADERS=true \
+		-e INSTANA_AGENT_KEY=${INSTANA_AGENT_KEY} \
+        -e INSTANA_AGENT_ENDPOINT=saas-eu-west-1.instana.io \
+    	-e INSTANA_AGENT_ENDPOINT_PORT=443 \
+		-v ${PWD}/docker/templates:/root/templates \
+		-v ${PWD}/docker/run-multi-backend.sh:/opt/instana/agent/bin/run-multi-backend.sh \
+		-v ${PWD}/docker/run-single-backend.sh:/opt/instana/agent/bin/run-single-backend.sh \
+		-v ${PWD}/docker/run.sh:/opt/instana/agent/bin/run.sh \
+		--entrypoint bash \
+		${PREFIX}:latest
