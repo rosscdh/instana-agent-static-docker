@@ -48,20 +48,18 @@ RUN apt-get update && \
     rm -rf /etc/apt/sources.list.d/instana-agent.list && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean && \
+    pip install pyyaml jproperties && \
     fgrep -R 'description="Instana Agent"' /opt/instana/agent/system/com/instana/agent-feature/ | \
           grep -Po '\<feature name\=\"instana-agent\" description\=\"Instana\ Agent\" version\=\"(.+)\"\>' | \
           sed -rn 's/.*version="([^"]*)".*/\1/p' > /instana-static-agent.version && \
     find /opt/instana/agent/system -name *.jar | sed "s/.*\///" | sed "s/.jar//" > /instana-sensors.version
 
-ADD org.ops4j.pax.logging.cfg /root/
-ADD configuration.yaml /root/
-ADD configuration-header.yaml /root/
+COPY docker /root
+COPY backends.yml /root/templates/backends.yml
 
-ADD templates /root
-
-ADD run.sh /opt/instana/agent/bin
-ADD run-multi-backend.sh /opt/instana/agent/bin
-ADD run-single-backend.sh /opt/instana/agent/bin
+COPY docker/run.sh /opt/instana/agent/bin/run.sh
+COPY docker/run-multi-backend.sh /opt/instana/agent/bin/run-multi-backend.sh
+COPY docker/run-single-backend.sh /opt/instana/agent/bin/run-single-backend.sh
 
 WORKDIR /opt/instana/agent
 

@@ -22,7 +22,7 @@ build:
 		--build-arg BUILD_DATE=${BUILD_DATE} \
 		--build-arg BUILD_REPO_ORIGIN=${BUILD_REPO_ORIGIN} \
 		--build-arg FTP_PROXY=${INSTANA_AGENT_KEY} \
-		./docker --no-cache
+		.
 
 tag: build
 	docker tag ${PREFIX}:latest ${REGISTRY}/${PREFIX}:$(shell docker run --rm --entrypoint cat ${PREFIX}:latest /instana-static-agent.version)
@@ -60,5 +60,14 @@ run-multi-backend:
 		-v ${PWD}/docker/run-multi-backend.sh:/opt/instana/agent/bin/run-multi-backend.sh \
 		-v ${PWD}/docker/run-single-backend.sh:/opt/instana/agent/bin/run-single-backend.sh \
 		-v ${PWD}/docker/run.sh:/opt/instana/agent/bin/run.sh \
+		--entrypoint bash \
+		${PREFIX}:latest
+
+
+shell:
+	docker run --rm -it \
+		-e INSTANA_MULTI_BACKEND=true \
+		-e INSTANA_INCLUDE_CONFIGURATION_HEADERS=true \
+		-e INSTANA_AGENT_KEY=${INSTANA_AGENT_KEY} \
 		--entrypoint bash \
 		${PREFIX}:latest
