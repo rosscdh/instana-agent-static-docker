@@ -18,4 +18,4 @@ build:
     - apk add --update make git
   script:
     - docker login $ARTIFACTORY_SERVER -u $ARTIFACTORY_USER -p $ARTIFACTORY_API_KEY
-    - make all
+    - make build push

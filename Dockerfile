@@ -57,11 +57,10 @@ RUN apt-get update && \
 COPY docker /root
 COPY backends/*.yml /root/templates/
 
-
 COPY docker/run.sh /opt/instana/agent/bin/run.sh
 COPY docker/run-multi-backend.sh /opt/instana/agent/bin/run-multi-backend.sh
 
-# generate the backends based on the specifid yml file
+# remove all of the existing backends
 RUN rm /opt/instana/agent/etc/instana/*Backend*.cfg || true
 
 WORKDIR /opt/instana/agent
