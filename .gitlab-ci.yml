@@ -1,16 +1,19 @@
 variables:
-    ARTIFACTORY_SERVER: artifactory-docker.edge.tmecosys.com
+    REGISTRY: docker.edge.tmecosys.com
 
 build:
   stage: build
   allow_failure: false
+  variables:
+    REGISTRY: docker.edge.tmecosys.com
+    PREFIX: metrics/instana-agent-static
   only:
     refs:
-    - master
+      - master
   image: docker
   tags:
-  - multistage
-  - europe
+    - multistage
+    - europe
   before_script:
     - apk add --update make git
   script:

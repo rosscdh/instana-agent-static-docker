@@ -1,12 +1,11 @@
-Instana Agent Static Docker
-===========================
+# Instana Agent Static Docker
 
 [![pipeline status](https://gitlab.tmecosys.net/nwot/platform-engineering/instana-agent-static-docker/badges/master/pipeline.svg)](https://gitlab.tmecosys.net/nwot/platform-engineering/instana-agent-static-docker/commits/master)
 
 This build of the Instana agent includes all sensors. It requires proxy settings only for egress access to the ${INSTANA_AGENT_ENDPOINT}, which may either be for your self hosted Instana installation or for the Instana SaaS.
 
-Building
-========
+
+## Building
 
 You can get your INSTANA_AGENT_KEY from `https://$YOUR_INSTANA_NAME.instana.io/ump/$YOUR_INSTANA_CUSTOMER/$YOUR_INSTANA_ENVIRONMENT/agentkeys/`
 
@@ -20,30 +19,17 @@ The yaml file supports multiple backends by default
 
 If you have a specific setup for a new region simply make a new backends-XXX.yml and set BUILD_BACKENDS=backends-XXX.yml at build time
 
+Usually the /root/templates/backends.yml shoudl be setup as a configmap in kubernetes and this gets used to generate teh Backends-X.cfg at runtime
 
 ### Build for your agent environmnet
 
-```sh
-REGISTRY=docker.io INSTANA_AGENT_ENVIRONMENT=nonprod INSTANA_AGENT_KEY=123456 make build
-```
-
-### Build using a specific backend
-
-```
-PREFIX=metrics/instana-agent-static-cn BUILD_BACKENDS=backends-cn.yml REGISTRY=docker.io INSTANA_AGENT_ENVIRONMENT=nonprod INSTANA_AGENT_KEY=123456 make build
-```
-
-The above command will push to a repo specified in the makefile `metrics/instana-agent-static-infra-$INSTANA_AGENT_ENVIRONMENT`
-
-
-### Pushing
+The following command will push to a repo specified in the makefile `metrics/instana-agent-static-infra-$INSTANA_AGENT_ENVIRONMENT`
 
 ```sh
-INSTANA_AGENT_ENVIRONMENT=nonprod make push
+REGISTRY=docker.io PREFIX=metrics/instana-agent-static-infra-special INSTANA_AGENT_KEY=123456 make build
 ```
 
-Environment Variables
-======================
+## Environment Variables
 
 ```
 INSTANA_AGENT_SCHEDULER_THREADS *default 4*
