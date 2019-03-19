@@ -8,6 +8,7 @@ ARG BUILD_COMMIT_DATE
 ARG BUILD_BRANCH
 ARG BUILD_DATE
 ARG BUILD_REPO_ORIGIN
+ARG BUILD_BACKENDS
  
 LABEL BUILD_COMMIT_SHA1=$BUILD_COMMIT_SHA1 \
       BUILD_COMMIT_DATE=$BUILD_COMMIT_DATE \
@@ -19,7 +20,8 @@ ENV BUILD_COMMIT_SHA1=$BUILD_COMMIT_SHA1 \
     BUILD_COMMIT_DATE=$BUILD_COMMIT_DATE \
     BUILD_BRANCH=$BUILD_BRANCH \
     BUILD_DATE=$BUILD_DATE \
-    BUILD_REPO_ORIGIN=$BUILD_REPO_ORIGIN
+    BUILD_REPO_ORIGIN=$BUILD_REPO_ORIGIN \
+    BACKENDS=$BUILD_BACKENDS
 
 ENV LANG=C.UTF-8 \
     INSTANA_AGENT_KEY="" \
@@ -55,11 +57,16 @@ RUN apt-get update && \
     find /opt/instana/agent/system -name *.jar | sed "s/.*\///" | sed "s/.jar//" > /instana-sensors.version
 
 COPY docker /root
-COPY backends.yml /root/templates/backends.yml
+COPY backends/*.yml /root/templates/
+
 
 COPY docker/run.sh /opt/instana/agent/bin/run.sh
 COPY docker/run-multi-backend.sh /opt/instana/agent/bin/run-multi-backend.sh
-COPY docker/run-single-backend.sh /opt/instana/agent/bin/run-single-backend.sh
+
+# generate the backends based on the specifid yml file
+RUN rm /opt/instana/agent/etc/instana/*Backend*.cfg || true
+RUN BACKENDS=/root/templates/${BACKENDS} OUTPUT=/root/templates/backends /usr/bin/python /root/templates/backends.py
+RUN cp /root/templates/backends/*.cfg /opt/instana/agent/etc/instana/
 
 WORKDIR /opt/instana/agent
 

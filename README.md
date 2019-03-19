@@ -12,13 +12,29 @@ You can get your INSTANA_AGENT_KEY from `https://$YOUR_INSTANA_NAME.instana.io/u
 
 ensure that the INSTANA_AGENT_KEY is the right agent for the INSTANA_AGENT_ENVIRONMENT you are building for
 
+## Setup your backend(s)
+
+Setup the backends/backends.yml
+
+The yaml file supports multiple backends by default
+
+If you have a specific setup for a new region simply make a new backends-XXX.yml and set BUILD_BACKENDS=backends-XXX.yml at build time
+
+
 ### Build for your agent environmnet
 
 ```sh
 REGISTRY=docker.io INSTANA_AGENT_ENVIRONMENT=nonprod INSTANA_AGENT_KEY=123456 make build
 ```
 
+### Build using a specific backend
+
+```
+PREFIX=metrics/instana-agent-static-cn BUILD_BACKENDS=backends-cn.yml REGISTRY=docker.io INSTANA_AGENT_ENVIRONMENT=nonprod INSTANA_AGENT_KEY=123456 make build
+```
+
 The above command will push to a repo specified in the makefile `metrics/instana-agent-static-infra-$INSTANA_AGENT_ENVIRONMENT`
+
 
 ### Pushing
 

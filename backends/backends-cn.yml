@@ -1,3 +1,16 @@
+# Template Example
+# - host: saas-eu-west-1.instana.io
+#   port: 443
+#   protocol: HTTP/2
+#   key: null
+#   origin: static_docker
+#   proxy.host: null
+#   proxy.port: null
+#   proxy.type: null
+#   proxy.dns: null
+#   proxy.user: null
+#   proxy.password: null
+
 backends:
   - host: saas-eu-west-1.instana.io
     port: 443

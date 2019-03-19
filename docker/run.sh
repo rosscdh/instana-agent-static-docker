@@ -47,9 +47,4 @@ if [ -d /host/proc ]; then
   export INSTANA_AGENT_PROC_PATH=/host/proc
 fi
 
-if [[ "${INSTANA_MULTI_BACKEND}" == "true" ]]; then
-  BACKENDS=/root/templates/backends.yml OUTPUT=/root/templates/backends python /root/templates/backends.py
-  bash /opt/instana/agent/bin/run-multi-backend.sh
-else
-  bash /opt/instana/agent/bin/run-single-backend.sh
-fi
+bash /opt/instana/agent/bin/run-multi-backend.sh
