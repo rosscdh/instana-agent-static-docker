@@ -2,7 +2,7 @@
 
 # Generate the *.Backend-*.cfg files
 # /root/templates/backends.yml is setup as a configmap and mounted at that location
-BACKENDS=/root/templates/backends.yml OUTPUT=/root/templates/backends python /root/templates/backends.py
+BACKENDS=/root/templates/backends.yml OUTPUT=/opt/instana/agent/etc/instana python /root/templates/backends.py
 # Copy all of the generated backends to instana
 #cp /root/templates/backends/*.cfg /opt/instana/agent/etc/instana/
 

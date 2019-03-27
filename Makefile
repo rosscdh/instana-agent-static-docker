@@ -2,7 +2,7 @@
 
 default: build
 
-PREFIX   ?= metrics/instana-agent-static
+PREFIX   ?= tmde2-dev/metrics/instana-agent-static
 TAG      := $(shell git describe --tags --always)
 REGISTRY ?= docker.edge.tmecosys.com
 
@@ -50,5 +50,8 @@ shell:
 	docker run --rm -it \
 		-e INSTANA_INCLUDE_CONFIGURATION_HEADERS=true \
 		-e INSTANA_AGENT_KEY=${INSTANA_AGENT_KEY} \
+		-v ${PWD}/docker/templates:/root/templates \
+		-v ${PWD}/docker/run-multi-backend.sh:/opt/instana/agent/bin/run-multi-backend.sh \
+		-v ${PWD}/docker/run.sh:/opt/instana/agent/bin/run.sh \
 		--entrypoint bash \
 		${PREFIX}:latest

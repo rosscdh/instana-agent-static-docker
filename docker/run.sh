@@ -36,7 +36,9 @@ cat /root/templates/com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl | gompla
 cat /root/templates/org.ops4j.pax.logging.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/org.ops4j.pax.logging.cfg
 
-cat /root/templates/org.ops4j.pax.url.mvn.cfg /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg
+cat /root/templates/org.ops4j.pax.url.mvn.cfg.tmpl  | gomplate > \
+  /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg
+
 cp /root/templates/configuration.yaml /opt/instana/agent/etc/instana
 
 if [[ "${INSTANA_INCLUDE_CONFIGURATION_HEADERS}" == "true" ]]; then
