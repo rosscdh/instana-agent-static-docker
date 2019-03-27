@@ -2,4 +2,5 @@ com.instana.tracing:
   extra-http-headers:
     - 'x-request-id'
     - 'correlation-id'
+    - 'X-Amz-Cf-Id'
 
