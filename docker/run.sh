@@ -20,14 +20,12 @@ fi
 # remove these loose ends
 rm  /opt/instana/agent/etc/instana/*.template || true
 
+# Remove the unneeded defaults
 rm -rf /tmp/* /opt/instana/agent/etc/org.ops4j.pax.logging.cfg \
   /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg  \
   /opt/instana/agent/etc/instana/configuration.yaml \
   /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
 
-cp /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg.template /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg
-cp /root/configuration.yaml /opt/instana/agent/etc/instana
-cp /root/org.ops4j.pax.logging.cfg /opt/instana/agent/etc
 
 cat /root/templates/com.instana.agent.main.config.Agent.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.main.config.Agent.cfg
@@ -38,8 +36,11 @@ cat /root/templates/com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl | gompla
 cat /root/templates/org.ops4j.pax.logging.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/org.ops4j.pax.logging.cfg
 
+cat /root/templates/org.ops4j.pax.url.mvn.cfg /opt/instana/agent/etc/org.ops4j.pax.url.mvn.cfg
+cp /root/templates/configuration.yaml /opt/instana/agent/etc/instana
+
 if [[ "${INSTANA_INCLUDE_CONFIGURATION_HEADERS}" == "true" ]]; then
-  cp /root/configuration-header.yaml /opt/instana/agent/etc/instana/configuration-header.yaml
+  cp /root/templates/configuration-header.yaml /opt/instana/agent/etc/instana/configuration-header.yaml
 fi
 
 if [[ "${INSTANA_AGENT_HTTP_LISTEN}" != "" ]]; then
