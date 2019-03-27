@@ -35,6 +35,9 @@ cat /root/templates/com.instana.agent.main.config.Agent.cfg.tmpl | gomplate > \
 cat /root/templates/com.instana.agent.bootstrap.AgentBootstrap.cfg.tmpl | gomplate > \
   /opt/instana/agent/etc/instana/com.instana.agent.bootstrap.AgentBootstrap.cfg
 
+cat /root/templates/org.ops4j.pax.logging.cfg.tmpl | gomplate > \
+  /opt/instana/agent/etc/org.ops4j.pax.logging.cfg
+
 if [[ "${INSTANA_INCLUDE_CONFIGURATION_HEADERS}" == "true" ]]; then
   cp /root/configuration-header.yaml /opt/instana/agent/etc/instana/configuration-header.yaml
 fi
